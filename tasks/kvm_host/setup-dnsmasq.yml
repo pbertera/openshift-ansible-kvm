@@ -9,6 +9,7 @@
     seuser: system_u
 
 - name: send dnsmasq hosts to kvm host
+  tags: add-workers
   copy:
     src:  "{{ files.base }}/conf/dnsmasq.hosts.openshift"
     dest: /etc/hosts.openshift
@@ -25,6 +26,7 @@
     line: "nameserver {{ kvm_host.ip }}"
 
 - name: (re)start dnsmasq daemon
+  tags: add-workers
   service:
     name: dnsmasq
     state: restarted

@@ -2,19 +2,27 @@
 - name: make files dir
   file:
     path: "{{ files.base }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     state: directory
 
 - name: make files/clients dir
   file:
     path: "{{ files.base }}/clients"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     state: directory
 
 - name: make files/dependencies dir
   file:
     path: "{{ files.base }}/dependencies"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     state: directory
 
 - name: make files/conf dir
   file:
     path: "{{ files.base }}/conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     state: directory

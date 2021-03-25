@@ -3,3 +3,5 @@
   template:
     src:  templates/libvirtd/nat-openshift.j2
     dest: "{{ files.base }}/conf/libvirtd.nat-openshift.xml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

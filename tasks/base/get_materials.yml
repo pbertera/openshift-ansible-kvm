@@ -6,6 +6,8 @@
     url: "{{ url.coreos_kernel_url }}"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_kernel }}"
     checksum: "sha256:{{ url.sha256_kernel_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_kernel
   until: downloaded_kernel is succeeded
   retries: 3
@@ -15,6 +17,8 @@
     url: "{{ url.coreos_initramfs_url }}"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_initramfs }}"
     checksum: "sha256:{{ url.sha256_initramfs_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_initramfs
   until: downloaded_initramfs is succeeded
   retries: 3
@@ -24,6 +28,8 @@
     url: "{{ url.coreos_bios_url }}"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_bios }}"
     checksum: "sha256:{{ url.sha256_bios_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_bios
   until: downloaded_bios is succeeded
   retries: 3
@@ -32,6 +38,8 @@
   get_url:
     url: "{{ url.coreos_bios_url }}.sig"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_bios }}.sig"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_bios_sig
   until: downloaded_bios_sig is succeeded
   retries: 3
@@ -42,6 +50,8 @@
     url: "{{ url.coreos_rootfs_url }}"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_rootfs }}"
     checksum: "sha256:{{ url.sha256_rootfs_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_rootfs
   until: downloaded_rootfs is succeeded
   retries: 3
@@ -52,6 +62,8 @@
   get_url:
     url: "{{ url.coreos_rootfs_url }}.sig"
     dest: "{{ files.base }}/dependencies/{{ config.coreos_rootfs }}.sig"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_rootfs_sig
   until: downloaded_rootfs_sig is succeeded
   retries: 3
@@ -64,6 +76,8 @@
     url: "{{ url.openshift_installer_url }}"
     dest: "{{ files.base }}/clients/{{ config.openshift_installer }}"
     checksum: "sha256:{{ url.sha256_client_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_installer
   until: downloaded_installer is succeeded
   retries: 3
@@ -73,6 +87,8 @@
     url: "{{ url.openshift_client_url }}"
     dest: "{{ files.base }}/clients/{{ config.openshift_client }}"
     checksum: "sha256:{{ url.sha256_client_url }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
   register: downloaded_client
   until: downloaded_client is succeeded
   retries: 3

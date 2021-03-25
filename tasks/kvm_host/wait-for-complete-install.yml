@@ -1,0 +1,27 @@
+---
+- name: wait-for install-complete
+  tags: [resume-bootstrap, resume-install]
+  command: "/root/bin/openshift-install --dir={{ files.kvm }}/bare-metal wait-for install-complete --log-level={{ openshift.install_debug }}"
+  async: 3600
+  poll: 0
+  register: install_complete_sleeper
+
+- name: 'install-complete - check on async task'
+  tags: [resume-bootstrap, resume-install]
+  async_status:
+    jid: "{{ install_complete_sleeper.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 1200
+  delay: 30
+
+- name: check kubeadmin-password
+  tags: [resume-bootstrap, resume-install]
+  slurp:
+    src: "{{ files.kvm }}/bare-metal/auth/kubeadmin-password"
+  register: kubeadmin_password
+
+- name: show kubeadmin-password
+  tags: [resume-bootstrap, resume-install]
+  debug:
+    msg: "{{ kubeadmin_password.content | b64decode }}"

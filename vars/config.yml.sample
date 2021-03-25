@@ -13,6 +13,7 @@ kvm_host:
 #  coreos_version:  CoreOS version
 #    ocp: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/
 #    okd: https://getfedora.org/en/coreos/download?tab=metal_virtualized&stream=stable
+#    install_debug: the debug level of the installation process, allowed values: debug,info,warn,error
 # --- OCP 4.2 -------------
 #  install_version: 4.2.36
 #  coreos_version:  4.2.18
@@ -39,10 +40,10 @@ kvm_host:
 # use_rootfs:       RHCOS 4.6 + requires rootfs. (true|false)
 openshift:
   dist: ocp
-  install_version: 4.5.2
-  coreos_version:  4.5.2
-  use_rootfs:      false
-
+  install_version: 4.7.0
+  coreos_version:  4.7.0
+  use_rootfs:      true
+  install_debug:   debug
 #  dist: okd
 #  install_version:      4.5.0-0.okd-2020-07-14-153706-ga
 #  coreos_version:       32.20200629.3.0

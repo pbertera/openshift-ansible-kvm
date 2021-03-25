@@ -1,5 +1,6 @@
 ---
 - name: send nginx config to kvm host
+  tags: add-workers
   copy:
     src:  "{{ files.base }}/conf/nginx.conf"
     dest: /etc/nginx/nginx.conf
@@ -83,6 +84,7 @@
     - boot.ipxe.worker
 
 - name: (re)start nginx daemon
+  tags: add-workers
   service:
     name: nginx
     state: restarted

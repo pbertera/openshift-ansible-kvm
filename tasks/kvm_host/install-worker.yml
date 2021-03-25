@@ -23,8 +23,15 @@
   when: 'item.name  in all_vms.list_vms'
   with_items: "{{ worker }}"
 
+- name: list workers
+  tags: add-workers
+  virt:
+    command: list_vms
+  register: all_vms
+
 # want fix: move to using the virt module...
 - name: install worker node
+  tags: add-workers
   shell: >-
     virt-install
     --name {{item.name}}
@@ -42,9 +49,11 @@
     --nographics
     --noautoconsole
     --boot menu=on,useserial=on
+  when: 'item.name not in all_vms.list_vms'
   with_items: "{{ worker }}"
 
 - name: waiting for end of the initial installation of worker
+  tags: add-workers
   virt:
     name: "{{ item.name }}"
     command: status
@@ -52,12 +61,15 @@
   until: result.status == "shutdown"
   retries: 100
   delay: 10
+  when: 'item.name not in all_vms.list_vms'
   with_items: "{{ worker }}"
 
 - name: restart worker
+  tags: add-workers
   virt:
     name: "{{ item.name }}"
     state: running
+  when: 'item.name not in all_vms.list_vms'
   with_items: "{{ worker }}"
   delay: 3
 

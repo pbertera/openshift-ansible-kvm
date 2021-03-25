@@ -3,21 +3,27 @@
   fetch:
     src:  "{{ files.kvm }}/bare-metal/auth/kubeadmin-password"
     dest: "{{ files.base }}/conf/"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     flat: yes
 
 - name: fetch kubeconfig from kvm host
   fetch:
     src:  "{{ files.kvm }}/bare-metal/auth/kubeconfig"
     dest: "{{ files.base }}/conf/"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     flat: yes
 
 - name: wait-for bootstrap-complete
-  command: "/root/bin/openshift-install --dir={{ files.kvm }}/bare-metal wait-for bootstrap-complete"
+  tags: resume-bootstrap
+  command: "/root/bin/openshift-install --dir={{ files.kvm }}/bare-metal wait-for bootstrap-complete --log-level={{ openshift.install_debug }}"
   async: 3600
   poll: 0
   register: bootstrap_complete_sleeper
 
 - name: 'bootstrap-complete - check on async task'
+  tags: resume-bootstrap
   async_status:
     jid: "{{ bootstrap_complete_sleeper.ansible_job_id }}"
   register: job_result
@@ -26,6 +32,7 @@
   delay: 30
 
 - name: oc whoami
+  tags: resume-bootstrap
   command: /root/bin/oc whoami
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
@@ -35,6 +42,7 @@
   until: result is not failed
 
 - name: oc get nodes
+  tags: resume-bootstrap
   command: /root/bin/oc get nodes
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
@@ -44,6 +52,7 @@
   until: result is not failed
 
 - name: oc get csr
+  tags: resume-bootstrap
   command: /root/bin/oc get csr
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
@@ -53,6 +62,7 @@
   until: result is not failed
 
 - name: oc path to configs.imageregistry.operator.openshift.io/cluster
+  tags: resume-bootstrap
   command: /root/bin/oc patch configs.imageregistry.operator.openshift.io/cluster --type merge --patch '{"spec":{"storage":{"emptyDir":{}}}}'
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
@@ -60,26 +70,3 @@
   delay: 10
   register: result
   until: result is not failed
-
-- name: wait-for install-complete
-  command: "/root/bin/openshift-install --dir={{ files.kvm }}/bare-metal wait-for install-complete"
-  async: 3600
-  poll: 0
-  register: install_complete_sleeper
-
-- name: 'install-complete - check on async task'
-  async_status:
-    jid: "{{ install_complete_sleeper.ansible_job_id }}"
-  register: job_result
-  until: job_result.finished
-  retries: 1200
-  delay: 30
-
-- name: check kubeadmin-password
-  slurp:
-    src: "{{ files.kvm }}/bare-metal/auth/kubeadmin-password"
-  register: kubeadmin_password
-
-- name: show kubeadmin-password
-  debug:
-    msg: "{{ kubeadmin_password.content | b64decode }}"

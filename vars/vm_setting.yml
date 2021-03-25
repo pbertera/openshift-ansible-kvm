@@ -16,10 +16,13 @@ libvirt_nat:
 
 # Guet Settings
 #  Bootstrap VM
+#  Set the 'remove' property if you want to remove
+#  the boostrap VM at the and of the installation
 bootstrap:
   - name: bootstrap
     ip: 172.16.0.100
     mac: "01"
+    remove: true
 #  Master VMs
 master:
   - name: master-0

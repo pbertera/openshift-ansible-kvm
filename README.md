@@ -69,6 +69,21 @@ $ cp inventory/hosts.sample inventory/hosts
 $ ansible-playbook ./main.yml
 ```
 
+### Resuming the install
+
+In case the bootstrap or the install process fails because of a timeout the process can be resumed:
+
+To resume the `openshift-install wait-for install-complete`
+
+```bash
+$ ansible-playbook main.yml --tags resume-install
+```
+To resume the `openshift-install wait-for bootstrap-complete`
+
+```bash
+$ ansible-playbook main.yml --tags resume-bootstrap
+```
+
 ## FAQ
 
 ### How do I connect to the OCP web console from the workstation?
@@ -89,6 +104,20 @@ Other ways, you can use [sshuttle](https://fedoramagazine.org/use-sshuttle-to-bu
 
 ```bash
 $ ansible-playbook ./03_cleanup.yml
+```
+
+## How to resume from bootstrap or installation timeout ?
+
+To resume from a timed-out bootstrap (`openshift-install wait-for boostrap-complete`):
+
+```bash
+$ ansible-playbook main.yml --tags resume-bootstrap
+```
+
+To resume from a timed-out bootstrap (`openshift-install wait-for install-complete`):
+
+```bash
+$ ansible-playbook main.yml --tags resume-install
 ```
 
 ## Special Thanks

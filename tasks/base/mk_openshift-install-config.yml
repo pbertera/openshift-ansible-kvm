@@ -3,3 +3,5 @@
   template:
     src:  templates/bare-metal/install-config-yaml.j2
     dest: "{{ files.base }}/conf/install-config.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

@@ -10,4 +10,5 @@
 <IP addr>
 
 [kvm_host:vars]
-ansible_user=root
+# Use root if sudo is not configured
+ansible_user=<Local username>

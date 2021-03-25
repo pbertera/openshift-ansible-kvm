@@ -1,5 +1,8 @@
 ---
 - name: make nginx/nginx.conf
+  tags: add-workers
   template:
     src:  templates/nginx/nginx_conf.j2
     dest: "{{ files.base }}/conf/nginx.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

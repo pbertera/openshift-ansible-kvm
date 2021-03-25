@@ -3,8 +3,13 @@
   template:
     src:  templates/dnsmasq/dnsmasq_conf.j2
     dest: "{{ files.base }}/conf/dnsmasq.openshift.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: make dnsmasq/hosts.openshift
+  tags: add-workers
   template:
     src:  templates/dnsmasq/hosts_openshift.j2
     dest: "{{ files.base }}/conf/dnsmasq.hosts.openshift"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

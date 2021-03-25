@@ -1,0 +1,14 @@
+---
+- name: check if bootstrap exists
+  tags: [resume-bootstrap, resume-install]
+  virt:
+    command: list_vms
+  register: all_vms
+
+# want fix: move to using the virt module...
+- name: destroy old bootstrap
+  tags: [resume-bootstrap, resume-install]
+  shell: |
+    virsh destroy {{ bootstrap.0.name }}
+    virsh undefine --remove-all-storage {{ bootstrap.0.name }}
+  when: 'bootstrap.0.name  in all_vms.list_vms and bootstrap.0.remove'

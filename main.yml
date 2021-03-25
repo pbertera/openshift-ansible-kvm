@@ -8,8 +8,10 @@
   tasks:
     - include_tasks: tasks/base/mk_files-dir.yml
     - include_tasks: tasks/base/mk_dnsmasq-conf.yml
+      tags: add-workers
     - include_tasks: tasks/base/mk_libvirtd-conf.yml
     - include_tasks: tasks/base/mk_nginx-conf.yml
+      tags: add-workers
     - include_tasks: tasks/base/mk_boot-ipxe-cfg.yml
     - include_tasks: tasks/base/mk_openshift-install-config.yml
     - include_tasks: tasks/base/get_materials.yml
@@ -26,10 +28,18 @@
     - include_tasks: tasks/kvm_host/setup-selinux.yml
     - include_tasks: tasks/kvm_host/setup-firewalld.yml
     - include_tasks: tasks/kvm_host/setup-dnsmasq.yml
+      tags: add-workers
     - include_tasks: tasks/kvm_host/setup-libvirtd.yml
     - include_tasks: tasks/kvm_host/setup-nginx.yml
+      tags: add-workers
     - include_tasks: tasks/kvm_host/setup-openshift-install-config.yml
     - include_tasks: tasks/kvm_host/install-bootstrap.yml
     - include_tasks: tasks/kvm_host/install-master.yml
     - include_tasks: tasks/kvm_host/install-worker.yml
-    - include_tasks: tasks/kvm_host/wait-for-complete.yml
+      tags: add-workers
+    - include_tasks: tasks/kvm_host/wait-for-complete-bootstrap.yml
+      tags: resume-bootstrap
+    - include_tasks: tasks/kvm_host/wait-for-complete-install.yml
+      tags: [resume-bootstrap, resume-install]
+    - include_tasks: tasks/kvm_host/remove-bootstrap.yml
+      tags: [resume-bootstrap, resume-install]
