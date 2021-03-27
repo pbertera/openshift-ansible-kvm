@@ -1,14 +1,14 @@
 ---
 - name: check csr status
   shell: >-
-    /root/bin/oc get csr | grep Pending |awk '{ print $1 }'
+    "{{ clients.kvm_host.path }}/oc get csr | grep Pending |awk '{ print $1 }'"
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
   register: result
   ignore_errors: yes
 
 - name: approve csr
-  command: "/root/bin/oc adm certificate approve {{ item }}"
+  command: "{{ clients.kvm_host.path }}/oc adm certificate approve {{ item }}"
   environment:
     KUBECONFIG: "{{ files.kvm }}/bare-metal/auth/kubeconfig"
   with_items: "{{ result.stdout_lines }}"

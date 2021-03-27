@@ -1,9 +1,4 @@
 ---
-- name: make /root/bin dir
-  file:
-    path: /root/bin
-    state: directory
-
 - name: check old bare-metal dir
   stat:
     path: "{{ files.kvm }}/bare-metal"
@@ -28,17 +23,11 @@
 - name: send openshift installer
   unarchive:
     src: "{{ files.base }}/clients/{{ config.openshift_installer }}"
-    dest: /root/bin
-    exclude: README.md
-
-- name: send openshift clients
-  unarchive:
-    src: "{{ files.base }}/clients/{{ config.openshift_client }}"
-    dest: /root/bin
+    dest: "{{ clients.kvm_host.path }}"
     exclude: README.md
 
 - name: create ignition-configs
-  command: "/root/bin/openshift-install create ignition-configs --dir={{ files.kvm }}/bare-metal"
+  command: "{{ clients.kvm_host.path }}/openshift-install create ignition-configs --dir={{ files.kvm }}/bare-metal"
 
 - name: copy ign files
   copy:

@@ -12,3 +12,16 @@
     virsh destroy {{ bootstrap.0.name }}
     virsh undefine --remove-all-storage {{ bootstrap.0.name }}
   when: 'bootstrap.0.name  in all_vms.list_vms and bootstrap.0.remove'
+
+- name: check kubeadmin-password
+  tags: [resume-bootstrap, resume-install]
+  slurp:
+    src: "{{ files.kvm }}/bare-metal/auth/kubeadmin-password"
+  register: kubeadmin_password
+
+#TODO: print also the console URL
+# oc get routes/console -n openshift-console -o custom-columns=Hostname:spec.host --no-headers
+- name: show kubeadmin-password
+  tags: [resume-bootstrap, resume-install]
+  debug:
+    msg: "kubeadmin password: {{ kubeadmin_password.content | b64decode }}"

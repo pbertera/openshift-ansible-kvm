@@ -1,5 +1,6 @@
 ---
 - hosts: base
+  become: false
   vars_files:
     - vars/config.yml
     - vars/vm_setting.yml
@@ -13,4 +14,4 @@
     - include_tasks: tasks/base/mk_boot-ipxe-cfg.yml
     - include_tasks: tasks/base/mk_openshift-install-config.yml
     - include_tasks: tasks/base/get_materials.yml
-
+    - include_tasks: tasks/base/setup-openshift-client.yml

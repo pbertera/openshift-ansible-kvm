@@ -7,3 +7,11 @@
 
   tasks:
     - include_tasks: tasks/kvm_host/cleanup-all.yaml
+    - include_tasks: tasks/kvm_host/cleanup-clients.yml
+
+- hosts: base
+  become: false
+  vars_files:
+    - vars/config.yml
+  tasks:
+    - include_tasks: tasks/base/cleanup-clients.yml

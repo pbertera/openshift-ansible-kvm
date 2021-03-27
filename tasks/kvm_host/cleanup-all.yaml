@@ -110,18 +110,5 @@
     - ipxe
     - openshift
   when:
-    - cleanup.bin == true
-  ignore_errors: yes
-
-# want fix: maybe we need Implementation of file stat before deletion
-- name: remove old clients
-  file:
-    path: "/root/bin/{{ item }}"
-    state: absent
-  with_items:
-    - kubectl
-    - oc
-    - openshift-install
-  when:
-    - cleanup.bin == true
+    - cleanup.kvm_host.bin == true
   ignore_errors: yes

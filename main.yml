@@ -1,5 +1,6 @@
 ---
 - hosts: base
+  become: false
   vars_files:
     - vars/config.yml
     - vars/vm_setting.yml
@@ -15,6 +16,8 @@
     - include_tasks: tasks/base/mk_boot-ipxe-cfg.yml
     - include_tasks: tasks/base/mk_openshift-install-config.yml
     - include_tasks: tasks/base/get_materials.yml
+    - include_tasks: tasks/base/setup-openshift-client.yml
+      tags: client-install
 
 - hosts: kvm_host
   vars_files:
@@ -32,6 +35,8 @@
     - include_tasks: tasks/kvm_host/setup-libvirtd.yml
     - include_tasks: tasks/kvm_host/setup-nginx.yml
       tags: add-workers
+    - include_tasks: tasks/kvm_host/setup-openshift-client.yml
+      tags: client-install
     - include_tasks: tasks/kvm_host/setup-openshift-install-config.yml
     - include_tasks: tasks/kvm_host/install-bootstrap.yml
     - include_tasks: tasks/kvm_host/install-master.yml

@@ -57,12 +57,27 @@ key:
   pullsecret: ''
   sshkey: ''
 
+# clients: defines if the `oc` command should be copied on the base node
+# on the kvm_host `oc` must be present, thus is possible to define only the path.
+clients:
+  base:
+    state: present
+    path: ~/bin
+  kvm_host:
+    path: /root/bin
+
 # You can stay the configurations and binaries on the kvm host when you run the cleanup.
 #  conf: configuration files. e.g. dnsmasq, install-config.yaml, etc...
-#  bin:  binary files. e.g. initramfs, oc client, etc ...
-#    true:  remove old files
-#    false: stay old files
+#  bin:  binary files. e.g. initramfs, oc client,
+#    base:
+#      true:  remove oc and kubectl files from the base host
+#      false: keep oc and kubectl on the base host
+#    kvm_host:
+#      true: remove all the binary files (oc, openshift-install, kubectl, kernel, initramfs, etc...) from the kvm host
+#      true: keep all the binary files (oc, openshift-install, kubectl, kernel, initramfs, etc...) from the kvm host
+
 cleanup:
   conf: true
-  bin:  false
-
+  bin:
+    base: true
+    kvm_host: true

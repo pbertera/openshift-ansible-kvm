@@ -1,0 +1,12 @@
+---
+# want fix: maybe we need Implementation of file stat before deletion
+- name: remove old clients
+  file:
+    path: "{{ clients.base.path }}/{{ item }}"
+    state: absent
+  with_items:
+    - kubectl
+    - oc
+  when:
+    - cleanup.bin.base == true
+  ignore_errors: yes

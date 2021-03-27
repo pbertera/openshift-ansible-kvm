@@ -1,0 +1,13 @@
+---
+- name: make the client dir on base host
+  tags: client-install 
+  file:
+    path: "{{ clients.base.path }}"
+    state: directory
+
+- name: send openshift clients to base host
+  tags: client-install 
+  unarchive:
+    src: "{{ files.base }}/clients/{{ config.openshift_client }}"
+    dest: "{{ clients.base.path }}"
+    exclude: README.md

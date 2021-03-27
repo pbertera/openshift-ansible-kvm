@@ -1,0 +1,11 @@
+---
+- name: make the client dir on kvm host
+  file:
+    path: "{{ clients.kvm_host.path }}"
+    state: directory
+
+- name: send openshift clients to kvm host
+  unarchive:
+    src: "{{ files.base }}/clients/{{ config.openshift_client }}"
+    dest: "{{ clients.kvm_host.path }}"
+    exclude: README.md
