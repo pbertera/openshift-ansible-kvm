@@ -11,6 +11,7 @@
     remote_src: true
 
 - name: check if worker already exists
+  tags: add-workers
   virt:
     command: list_vms
   register: all_vms
@@ -20,7 +21,7 @@
   shell: |
     virsh destroy {{ item.name }}
     virsh undefine --remove-all-storage {{ item.name }}
-  when: 'item.name  in all_vms.list_vms'
+  when: 'item.name in all_vms.list_vms'
   with_items: "{{ worker }}"
 
 - name: list workers

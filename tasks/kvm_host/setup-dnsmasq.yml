@@ -18,6 +18,7 @@
     setype: net_conf_t
     seuser: system_u
 
+# TODO: make it permanent
 - name: add a new line to /etc/resolv.conf
   lineinfile:
     path: /etc/resolv.conf
@@ -25,6 +26,7 @@
     insertbefore: '^nameserver'
     line: "nameserver {{ kvm_host.ip }}"
 
+# TODO: make it permanent
 - name: (re)start dnsmasq daemon
   tags: add-workers
   service:

@@ -83,6 +83,7 @@
     - boot.ipxe.master
     - boot.ipxe.worker
 
+# TODO: make it permanent
 - name: (re)start nginx daemon
   tags: add-workers
   service:

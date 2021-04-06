@@ -110,5 +110,5 @@
     - ipxe
     - openshift
   when:
-    - cleanup.kvm_host.bin == true
+    - cleanup.bin.kvm_host == true
   ignore_errors: yes
