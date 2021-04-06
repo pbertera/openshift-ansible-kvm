@@ -84,6 +84,44 @@ To resume the `openshift-install wait-for bootstrap-complete`
 $ ansible-playbook main.yml --tags resume-bootstrap
 ```
 
+### Adding worker nodes
+
+If you want to add some worker nodes post-install you have to
+
+1. add the nodes to the `vars/vm_settings.yml`:
+```bash
+worker:
+  - name: worker-0
+    ip: 172.16.0.104
+    mac: "05"
+  - name: worker-1
+    ip: 172.16.0.105
+    mac: "06"
+  - name: worker-2
+    ip: 172.16.0.106
+    mac: "07"
+  - name: worker-3
+    ip: 172.16.0.107
+    mac: "08"
+  - name: worker-4
+    ip: 172.16.0.108
+    mac: "09"
+  - name: worker-5
+    ip: 172.16.0.109
+    mac: "0a"
+```
+
+2. run the playbook with the `add-workers` tag
+```bash
+$ ansible-playbook main.yml --tags add-workers
+```
+
+3. after a while, when the nodes are up and the CSRs created, approve the CSRs:
+
+```bash
+$ ansible-playbook main.yml --tags approve-csr
+```
+
 ## FAQ
 
 ### How do I connect to the OCP web console from the workstation?

@@ -11,6 +11,7 @@
     - include_tasks: tasks/base/mk_dnsmasq-conf.yml
       tags: add-workers
     - include_tasks: tasks/base/mk_libvirtd-conf.yml
+      tags: add-workers
     - include_tasks: tasks/base/mk_nginx-conf.yml
       tags: add-workers
     - include_tasks: tasks/base/mk_boot-ipxe-cfg.yml
@@ -48,3 +49,5 @@
       tags: [resume-bootstrap, resume-install]
     - include_tasks: tasks/kvm_host/remove-bootstrap.yml
       tags: [resume-bootstrap, resume-install]
+    - include_tasks: tasks/kvm_host/approve-csr.yml
+      tags: [add-workers, approve-csr]
